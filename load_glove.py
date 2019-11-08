@@ -27,7 +27,7 @@ class Glove(object):
         """ print Glove obj with vocab size and dim """
         return "<Glove_object num_tokens.{} vec_dim.{}>".format(self.num_tokens, self.dimension)
 
-    def load_model(self, file=FILENAME, dim=DIMENSION, normalize=False):
+    def load_model(self, file=FILENAME, dim=DIMENSION, normalize=True):
         """ load pretrained embedding from file 
             each row of file must have format: text dim1 dim2 ... """
         print("Loading pretrained Glove vectors from file {}".format(FILENAME))
@@ -43,7 +43,7 @@ class Glove(object):
                 self.tokens_arr[idx] = token
                 self.token_to_idx[token] = idx 
                 vec = list(map(float, line[-self.dimension:]))
-                if normalize: 
+                if not normalize: 
                     # normalize the vectors as they are put into the matrix
                     vec = vec / np.linalg.norm(vec)
                 self.embeddings_mat[idx] = vec 
@@ -78,12 +78,13 @@ class Glove(object):
         assert vec is not None, "Cannot compute similarity between None type vectors."
         return self.most_similar_embedding(vec, topn+1)[1:]
 
-    def most_similar_embedding(self, embedding, topn=10):
+    def most_similar_embedding(self, embedding, topn=10, normalize=True):
         """ input type: np.ndarray, torch.Tensor, or list 
             output topn most similar tokens and cosine similarity (dot product) """
         assert type(embedding) in [np.ndarray, list, torch.Tensor], "Input type must be np.array, list, or torch.Tensor."   
         vec = np.asarray(embedding) # convert to array
-        vec = vec / np.linalg.norm(vec) # normalize vec
+        if not normalize:
+            vec = vec / np.linalg.norm(vec) # normalize vec
         dot_mat = np.sum(np.multiply(vec, self.embeddings_mat), axis=1) # dot product alone the rows
         assert len(dot_mat) == self.num_tokens, "Error in computing cosine similarity, number of vocabs don't match before and after."
         topn_idx = dot_mat.argsort()[::-1][:topn] # argsort() returns the sorted idx, reversed top n
