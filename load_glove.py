@@ -1,3 +1,6 @@
+############### Copyright By Shannon Jing ################
+######### For issues contact xiaonjing@gmail.com #########
+
 FILENAME = "./data/glove.840B.300d.txt"
 DIMENSION = 300
 import numpy as np
@@ -87,6 +90,3 @@ class Glove(object):
         topn_most_similar = list(zip([self.tokens_arr[x] for x in topn_idx], [dot_mat[x] for x in topn_idx])) 
         return topn_most_similar
 
-
-############### Copyright By Shannon Jing ################
-######### For issues contact xiaonjing@gmail.com #########
