@@ -26,7 +26,6 @@ The following functions are supported:
   
 * To obtain similarity of two given words (cosine similarity). iI words are not in the model, the similarity() function will throw an exception  
   `model.similarity("cat", "dog")`  
-    **NOTE: this function will be very slow if embeddings were loaded with normalize=False**  
 
 * To obtain top n most simliar words with a given word (default top n is set to 10)  
   `model.most_similar("cat", topn=10)`  
@@ -34,4 +33,3 @@ The following functions are supported:
 * To obtain top n most similar words with a given embedding (default top n is set to 10, normalize is set to True). 
   Input to the most_similar_embedding() function can be an np array, a list, or a torch tensor  
   `model.most_similar_embedding([an embedding vector], topn=10)`  
-  **NOTE: this function will be very slow if embeddings were loaded with normalize=False**
