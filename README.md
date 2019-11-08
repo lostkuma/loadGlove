@@ -11,7 +11,8 @@ The following functions are supported:
   ```
   from load_glove import Glove
   
-  model = Glove().load_model(file=path_to_file(str), dim=embedding_dimensions(int), normalize=boolean)
+  model = Glove()
+  model.load_model(file=path_to_file(str), dim=embedding_dimensions(int), normalize=boolean)
   ```  
 
 
