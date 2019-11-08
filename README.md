@@ -14,7 +14,7 @@ The following functions are supported:
   model = Glove()
   model.load_model(file=path_to_file(str), dim=embedding_dimensions(int), normalize=boolean)
   ```
-  By default, with no argument passed in, the load_model() function will run with the following parameters: `load_model(file="./data/glove.840B.300d.txt", dim=300, normalize=True)`  
+  By default, with no argument passed in, the load_model() function will run with the following parameters: `load_model(file="./data/glove.840B.300d.txt", dim=300, normalize=False)`  
   **NOTE: normalize set to False will use original embeddings, True will use normalized embeddings**
   
 ### Functions
