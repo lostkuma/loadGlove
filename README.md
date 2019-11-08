@@ -7,7 +7,8 @@ The following functions are supported:
   * top n most similar embedding with an embedding in list, np.ndarray, or torch.Tensor type  
   
 ### Usage
-* To use the load_glove scripts, put the load_glove.py within the same directory of glove embedding file. By default, with no argument passed in, the load_model() function will try to load "glove.840B.300d.txt", 300 dimension, and without normalizing the embedding vectors.  
+* To use the load_glove scripts, put the load_glove.py within the same directory of glove embedding file.  
+   By default, with no argument passed in, the load_model() function will try to load "glove.840B.300d.txt", 300 dimension, and without normalizing the embedding vectors.  
   ```
   from load_glove import Glove
   
