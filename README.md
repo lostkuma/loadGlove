@@ -8,14 +8,13 @@ The following functions are supported:
   
 ### Usage
 * To use the load_glove scripts, put the load_glove.py within the same directory of glove embedding file.  
-   By default, with no argument passed in, the load_model() function will run with the following parameters:  
-   `load_model(file="./data/glove.840B.300d.txt", dim=300, normalize=False)`  
   ```
   from load_glove import Glove
   
   model = Glove()
   model.load_model(file=path_to_file(str), dim=embedding_dimensions(int), normalize=boolean)
   ```  
+  By default, with no argument passed in, the load_model() function will run with the following parameters: `load_model(file="./data/glove.840B.300d.txt", dim=300, normalize=False)`  
 
 
 * To obtain number of embeddings and vector dimensions loaded by the model  
