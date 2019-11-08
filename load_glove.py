@@ -22,6 +22,7 @@ class Glove(object):
         self.token_to_idx = dict() # hash map for texts to index in array/matrix
         self.num_tokens = 0 # int value to store vocab size
         self.dimension = None # save vector dimension
+        self.normalize = None # save a bool for if normalize when loading the vectors
 
     def __repr__(self):
         """ print Glove obj with vocab size and dim """
@@ -32,6 +33,7 @@ class Glove(object):
             each row of file must have format: text dim1 dim2 ... """
         print("Loading pretrained Glove vectors from file {}".format(FILENAME))
         self.dimension = dim
+        self.normalize = normalize
         with open(file, "r", encoding="utf-8") as textfile:
             self.num_tokens = count_lines(textfile)
             self.tokens_arr = ["" for i in range(self.num_tokens)]
@@ -43,7 +45,7 @@ class Glove(object):
                 self.tokens_arr[idx] = token
                 self.token_to_idx[token] = idx 
                 vec = list(map(float, line[-self.dimension:]))
-                if not normalize: 
+                if self.normalize: 
                     # normalize the vectors as they are put into the matrix
                     vec = vec / np.linalg.norm(vec)
                 self.embeddings_mat[idx] = vec 
@@ -68,6 +70,10 @@ class Glove(object):
         vec1 = self.get_vector(token1)
         vec2 = self.get_vector(token2)
         assert vec1 is not None and vec2 is not None, "Cannot compute similarity between None type vectors."
+        if not self.normalize:
+            # if model not loaded as normalized embeddings 
+            vec1 = vec1 / np.linalg.norm(vec1)
+            vec2 = vec2 / np.linalg.norm(vec1)
         return np.dot(vec1, vec2)
 
     def most_similar(self, token, topn=10):
@@ -78,13 +84,13 @@ class Glove(object):
         assert vec is not None, "Cannot compute similarity between None type vectors."
         return self.most_similar_embedding(vec, topn+1)[1:]
 
-    def most_similar_embedding(self, embedding, topn=10, normalize=True):
+    def most_similar_embedding(self, embedding, topn=10):
         """ input type: np.ndarray, torch.Tensor, or list 
             output topn most similar tokens and cosine similarity (dot product) """
         assert type(embedding) in [np.ndarray, list, torch.Tensor], "Input type must be np.array, list, or torch.Tensor."   
+        assert self.normalize, "Must load the model with normalized vectors to run this function."
         vec = np.asarray(embedding) # convert to array
-        if not normalize:
-            vec = vec / np.linalg.norm(vec) # normalize vec
+        vec = vec / np.linalg.norm(vec) # normalize vec
         dot_mat = np.sum(np.multiply(vec, self.embeddings_mat), axis=1) # dot product alone the rows
         assert len(dot_mat) == self.num_tokens, "Error in computing cosine similarity, number of vocabs don't match before and after."
         topn_idx = dot_mat.argsort()[::-1][:topn] # argsort() returns the sorted idx, reversed top n
