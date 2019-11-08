@@ -16,6 +16,7 @@ The following functions are supported:
   ```
   By default, with no argument passed in, the load_model() function will run with the following parameters: `load_model(file="./data/glove.840B.300d.txt", dim=300, normalize=False)`  
   
+#### Functions
 * To obtain number of embeddings and vector dimensions loaded by the model  
   `print(model)`
   
