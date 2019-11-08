@@ -26,7 +26,7 @@ The following functions are supported:
   `model.similarity("cat", "dog")`  
 
 * To obtain top n most simliar words with a given word (default top n is set to 10)  
-  `model.most_similar("cat", topn=20)`  
+  `model.most_similar("cat", topn=10)`  
   
 * To obtain top n most similar words with a given embedding (default top n is set to 10). Input to the most_similar_embedding() function can be an np array, a list, or a torch tensor  
-  `model.most_similar_embedding([an embedding vector])`  
+  `model.most_similar_embedding([an embedding vector], topn=10)`  
