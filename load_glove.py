@@ -28,7 +28,7 @@ class Glove(object):
         """ print Glove obj with vocab size and dim """
         return "<Glove_object num_tokens.{} vec_dim.{}>".format(self.num_tokens, self.dimension)
 
-    def load_model(self, file=FILENAME, dim=DIMENSION, normalize=True):
+    def load_model(self, file=FILENAME, dim=DIMENSION, normalize=False):
         """ load pretrained embedding from file 
             each row of file must have format: text dim1 dim2 ... """
         print("Loading pretrained Glove vectors from file {}".format(FILENAME))
@@ -73,7 +73,7 @@ class Glove(object):
         if not self.normalize:
             # if model not loaded as normalized embeddings 
             vec1 = vec1 / np.linalg.norm(vec1)
-            vec2 = vec2 / np.linalg.norm(vec1)
+            vec2 = vec2 / np.linalg.norm(vec2)
         return np.dot(vec1, vec2)
 
     def most_similar(self, token, topn=10):
@@ -88,10 +88,12 @@ class Glove(object):
         """ input type: np.ndarray, torch.Tensor, or list 
             output topn most similar tokens and cosine similarity (dot product) """
         assert type(embedding) in [np.ndarray, list, torch.Tensor], "Input type must be np.array, list, or torch.Tensor."   
-        assert self.normalize, "Must load the model with normalized vectors to run this function."
         vec = np.asarray(embedding) # convert to array
         vec = vec / np.linalg.norm(vec) # normalize vec
-        dot_mat = np.sum(np.multiply(vec, self.embeddings_mat), axis=1) # dot product alone the rows
+        if self.normalize:
+            dot_mat = np.sum(np.multiply(vec, self.embeddings_mat), axis=1) # dot product alone the rows
+        else:
+            dot_mat = np.sum(np.multiply(vec, self.embeddings_mat / np.linalg.norm(self.embeddings_mat, axis=1)[:, None]), axis=1) # normalize and dot product alone the rows
         assert len(dot_mat) == self.num_tokens, "Error in computing cosine similarity, number of vocabs don't match before and after."
         topn_idx = dot_mat.argsort()[::-1][:topn] # argsort() returns the sorted idx, reversed top n
         topn_most_similar = list(zip([self.tokens_arr[x] for x in topn_idx], [dot_mat[x] for x in topn_idx])) 
