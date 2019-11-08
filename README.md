@@ -1,10 +1,10 @@
 # loadGlove
 Efficiently load the pre-trained Glove embeddings or similar [pre-trained Glove embedding](https://nlp.stanford.edu/projects/glove/) files, with commonly used functions implemented.  
 The following functions are supported:  
-..* the embedding vector given the target word  
-..* similarity between two given words  
-..* top n most similar words given the target word  
-..* top n most similar embedding with an embedding in list, np.ndarray, or torch.Tensor type  
+  * the embedding vector given the target word  
+  * similarity between two given words  
+  * top n most similar words given the target word  
+  * top n most similar embedding with an embedding in list, np.ndarray, or torch.Tensor type  
   
 To use the load_glove scripts, put the load_glove.py within the same directory of glove embedding file.  
 `from load_glove import Glove
