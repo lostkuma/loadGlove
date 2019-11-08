@@ -15,7 +15,7 @@ The following functions are supported:
   model.load_model(file=path_to_file(str), dim=embedding_dimensions(int), normalize=boolean)
   ```
   By default, with no argument passed in, the load_model() function will run with the following parameters: `load_model(file="./data/glove.840B.300d.txt", dim=300, normalize=True)`  
-  NOTE: if normalize is set to False then the cosine similarity will not range from [0, 1]
+  ######NOTE: if normalize is set to False then the cosine similarity will not range from [0, 1]
   
 ### Functions
 * To obtain number of embeddings and vector dimensions loaded by the model  
@@ -33,4 +33,4 @@ The following functions are supported:
 * To obtain top n most similar words with a given embedding (default top n is set to 10, normalize is set to True). 
   Input to the most_similar_embedding() function can be an np array, a list, or a torch tensor  
   `model.most_similar_embedding([an embedding vector], topn=10, normalize=True)`  
-  NOTE: if normalize is set to False then the cosine similarity will not range from [0, 1]
+  ######NOTE: if normalize is set to False then the cosine similarity will not range from [0, 1]
